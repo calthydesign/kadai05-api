@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Geolocation</title>
+    <style>
+      html,
+      body {
+        height: 100%;
+      }
+      body {
+        padding: 0;
+        margin: 0;
+      }
+      h1 {
+        padding: 0;
+        margin: 0;
+        font-size: 100%;
+        color: rgb(222, 48, 17);
+      }
+      header {
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- MAP[START] -->
+    <header>
+      <h1>\ このマークがAED /</h1>
+      <img src="./img/aed_pin.png" alt="" style="text-align: center" />
+    </header>
+    <div id="myMap" style="width: 100%; height: 97%"></div>
+
+    <!-- MAP[END] -->
+
+    <script
+      src="https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=AqBAveFcmFjuoot1sJy_ctg73V8R6l1VhZcTrYk7LjjiBUc3FAfg28ETiqQux9YQ"
+      async
+      defer
+    ></script>
+    <!-- <script src="./js/BmapQuery.js"></script> -->
+    <script src="https://cdn.jsdelivr.net/gh/yamazakidaisuke/BmapQuery/js/BmapQuery.js"></script>
+    <script>
+      //****************************************************************************************
+      // BingMaps&BmapQuery
+      //****************************************************************************************
+      //Init
+      //他のfunctionからもマップが使えるようにlet mapを外に記述する
+      let map, lat, lon;
+
+      function GetMap() {
+        //------------------------------------------------------------------------
+        //1. Instanceー地図の生成
+        //------------------------------------------------------------------------
+        map = new Bmap("#myMap");
+        //------------------------------------------------------------------------
+        //2. geolocation: Display Map
+        //------------------------------------------------------------------------
+        map.geolocation(function (data) {
+          //location
+          lat = data.coords.latitude;
+          lon = data.coords.longitude;
+          //Map
+          map.startMap(lat, lon, "load", 14);
+          map.getBoundary("Postcode1");
+          console.log(lat, lon);
+        });
+
+        //pin
+        map.geolocation(function (data) {
+          //location
+          //pin
+          let pin1 = map.pinIcon(
+            35.8323762399014,
+            140.145764000003,
+            "./img/aed_pin.svg",
+            0.3,
+            13,
+            37
+          );
+          let pin2 = map.pinIcon(
+            35.7792087698806,
+            140.204726700083,
+            "./img/aed_pin.svg",
+            0.3,
+            13,
+            37
+          );
+          let pin3 = map.pinIcon(
+            35.8123179499364,
+            140.160110900075,
+            "./img/aed_pin.svg",
+            0.3,
+            13,
+            37
+          );
+        });
+      }
+    </script>
+  </body>
+</html>
